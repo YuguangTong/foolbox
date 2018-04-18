@@ -69,6 +69,5 @@ for i in range(10):
     # show results
     print(np.argmax(fmodel.predictions(adversarial.image)))
     print(fmodel.predictions(foolbox.utils.softmax(adversarial.image))[dog_label])
-    adversarial_rgb = adversarial.image[np.newaxis, :, :, :]
-    preds = kmodel.predict(adversarial_rgb.copy())
+    preds = kmodel.predict(adversarial.image.copy())
     print("Top 5 predictions (adversarial: ", decode_predictions(preds, top=5))

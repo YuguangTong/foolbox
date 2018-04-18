@@ -111,6 +111,54 @@ class Criterion(ABC):
         return CombinedCriteria(self, other)
 
 
+class GoogleCloudTargetedClassScore(Criterion):
+    """Define targeted adversarials as images for which the highest-scored label is semantically related to the target class and has score higher than a given threshold.
+
+    """
+
+    def __init__(self, target_class, score=0, target_class_lookup_table=set()):
+        super(self, GoogleCloudTargetedClassScore).__init__()
+        self._target_class = target_class
+        self._score = score
+        self._target_class_lookup_table = target_class_lookup_table
+
+    def is_adversarial(self, predictions, label):
+        gcp_labels = predictions[0]
+        if len(gcp_labels) == 0:
+            return False
+        top_label = gcp_labels[0]
+        if top_label.description in self._target_class_lookup_table:
+            if top_label.score >= self._score:
+                return True
+            return False
+        else:
+            # check the meaning of this word and add to lookup table if necessary.
+            # TODO(tong): to implement the lookup algorithm.
+            pass
+
+class GoogleCloudTopKMisclassification(Criterion):
+    """Define adversarials as images for which non of the top k labels are semantically related to the original class.
+
+    """
+
+    def __init__(self, original_class, k=1, original_class_lookup_table=set()):
+        super(self, GoogleCloudTopKMisclassification).__init__()
+        self._original_class = original_class
+        self._k = k
+        self._original_class_lookup_table = original_class_lookup_table
+
+    def is_adversarial(self, predictions, label):
+        gcp_labels = predictions[0]
+        for i in range(min(len(gcp_labels), self._k)):
+            gcp_label = gcp_labels[i]
+            if gcp_label.description in self._original_class_lookup_table:
+                return False
+            else:
+                # check the meaning of the word and add to the lookup table if necessary.
+                # TODO(tong): to implement lookup algorithm.
+                pass
+        return True
+
 class CombinedCriteria(Criterion):
     """Meta criterion that combines several criteria into a new one.
 

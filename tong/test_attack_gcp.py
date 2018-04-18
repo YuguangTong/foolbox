@@ -1,7 +1,7 @@
-import foolbox
 from foolbox.attacks import BoundaryAttack
 from foolbox.models.googecloud import GoogleCloudModel
-from foolbox.criteria import TargetClassProbability, TopKMisclassification, TargetClass
+from foolbox.criteria import GoogleCloudTopKMisclassification, GoogleCloudTargetedClassScore
+from keras.preprocessing import image
 import numpy as np
 
 # Load two images. The cat image is original image
@@ -18,17 +18,16 @@ dog_x = np.expand_dims(dog_img, axis=0)
 cat_x = np.expand_dims(cat_img, axis=0)
 
 # Build a foolbox model
-fmodel = GoogleCloudModel(bounds=[0, 255])
+gcp_model = GoogleCloudModel(bounds=[0, 255])
 
-cat_label = 0
-dog_label = 1
+cat_label = 'cat'
+dog_label = 'dog'
 
-criterion_1 = TopKMisclassification(k=5)
-criterion_2 = TargetClass(dog_label)
-criterion_3 = TargetClassProbability(dog_label, p=0.5)
-criterion = criterion_1 & criterion_2 & criterion_3
+criterion_1 = GoogleCloudTargetedClassScore(dog_label, score=0.8)
+criterion_2 = GoogleCloudTopKMisclassification(cat_label, k=5)
+criterion = criterion_1 & criterion_2
 
-attack = BoundaryAttack(model=fmodel,
+attack = BoundaryAttack(model=gcp_model,
                         criterion=criterion)
 
 iteration_size = 1000
