@@ -6,7 +6,7 @@ import os
 import io
 from .base import Model
 
-from google.cloud import vision
+from google.cloud import visieon
 from google.cloud.vision import types
 
 class GoogleCloudModel(Model):
