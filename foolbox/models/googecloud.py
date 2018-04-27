@@ -5,6 +5,7 @@ from PIL import Image
 import os
 import io
 from .base import Model
+import tempfile
 
 from google.cloud import vision
 from google.cloud.vision import types
@@ -23,7 +24,7 @@ class GoogleCloudModel(Model):
                                                channel_axis=channel_axis,
                                                preprocessing=preprocessing)
 
-        self._temp_dir = '/var/run'
+        self._temp_dir = tempfile.mkdtemp()
         self._client = vision.ImageAnnotatorClient()
         self._num_classes = 3
 
@@ -56,9 +57,9 @@ class GoogleCloudModel(Model):
         :param image: a np.ndarray representing an RGB image.
         :return: the input image in protobuf.
         """
-
+        assert type(image) is np.ndarray
         # save image to disk and read as byte
-        image_pil = Image.fromarray(image)
+        image_pil = Image.fromarray(image.astype(np.uint8))
         file_name = os.path.join(self._temp_dir, 'temp.png')
         image_pil.save(file_name)
         with io.open(file_name, 'rb') as image_file:

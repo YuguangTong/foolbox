@@ -117,7 +117,7 @@ class GoogleCloudTargetedClassScore(Criterion):
     """
 
     def __init__(self, target_class, score=0, target_class_lookup_table=set()):
-        super(self, GoogleCloudTargetedClassScore).__init__()
+        super(GoogleCloudTargetedClassScore, self).__init__()
         self._target_class = target_class
         self._score = score
         self._target_class_lookup_table = target_class_lookup_table
@@ -127,14 +127,14 @@ class GoogleCloudTargetedClassScore(Criterion):
         if len(gcp_labels) == 0:
             return False
         top_label = gcp_labels[0]
-        if top_label.description in self._target_class_lookup_table:
+        if top_label.description.lower() in self._target_class_lookup_table:
             if top_label.score >= self._score:
                 return True
             return False
         else:
             # check the meaning of this word and add to lookup table if necessary.
             # TODO(tong): to implement the lookup algorithm.
-            pass
+            return False
 
 class GoogleCloudTopKMisclassification(Criterion):
     """Define adversarials as images for which non of the top k labels are semantically related to the original class.
@@ -142,7 +142,7 @@ class GoogleCloudTopKMisclassification(Criterion):
     """
 
     def __init__(self, original_class, k=1, original_class_lookup_table=set()):
-        super(self, GoogleCloudTopKMisclassification).__init__()
+        super(GoogleCloudTopKMisclassification, self).__init__()
         self._original_class = original_class
         self._k = k
         self._original_class_lookup_table = original_class_lookup_table
@@ -151,7 +151,7 @@ class GoogleCloudTopKMisclassification(Criterion):
         gcp_labels = predictions[0]
         for i in range(min(len(gcp_labels), self._k)):
             gcp_label = gcp_labels[i]
-            if gcp_label.description in self._original_class_lookup_table:
+            if gcp_label.description.lower() in self._original_class_lookup_table:
                 return False
             else:
                 # check the meaning of the word and add to the lookup table if necessary.

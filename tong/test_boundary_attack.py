@@ -7,6 +7,7 @@ import keras
 from keras.preprocessing import image
 from keras.applications.densenet import DenseNet121
 from keras.applications.densenet import decode_predictions
+import pickle
 
 # Load pretrained DenseNet
 keras.backend.set_learning_phase(0)
@@ -44,7 +45,7 @@ criterion = criterion_1 & criterion_2 & criterion_3
 attack = BoundaryAttack(model=fmodel,
                         criterion=criterion)
 
-iteration_size = 1000
+iteration_size = 100
 global_iterations = 0
 # Run boundary attack to generate an adversarial example
 adversarial = attack(cat_img,
@@ -58,7 +59,7 @@ global_iterations += iteration_size
 
 np.save('adversarial_image_{0}'.format(global_iterations), adversarial.image)
 
-for i in range(10):
+for i in range(5):
     adversarial = attack(adversarial,
                          unpack=False,
                          iterations=iteration_size,
@@ -71,3 +72,6 @@ for i in range(10):
     print(fmodel.predictions(foolbox.utils.softmax(adversarial.image))[dog_label])
     preds = kmodel.predict(adversarial.image.copy())
     print("Top 5 predictions (adversarial: ", decode_predictions(preds, top=5))
+
+# save the adversarial object
+pickle.dump(adversarial, open("saved_adversarial.p", "wb"))
