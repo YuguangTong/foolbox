@@ -130,11 +130,7 @@ class GoogleCloudTargetedClassScore(Criterion):
         if top_label.description.lower() in self._target_class_lookup_table:
             if top_label.score >= self._score:
                 return True
-            return False
-        else:
-            # check the meaning of this word and add to lookup table if necessary.
-            # TODO(tong): to implement the lookup algorithm.
-            return False
+        return False
 
 class GoogleCloudTopKMisclassification(Criterion):
     """Define adversarials as images for which non of the top k labels are semantically related to the original class.
@@ -150,13 +146,12 @@ class GoogleCloudTopKMisclassification(Criterion):
     def is_adversarial(self, predictions, label):
         gcp_labels = predictions[0]
         for i in range(min(len(gcp_labels), self._k)):
-            gcp_label = gcp_labels[i]
-            if gcp_label.description.lower() in self._original_class_lookup_table:
+            ith_label = gcp_labels[i].description.lower()
+            if ith_label in self._original_class_lookup_table:
                 return False
-            else:
-                # check the meaning of the word and add to the lookup table if necessary.
-                # TODO(tong): to implement lookup algorithm.
-                pass
+            for word in ith_label.split():
+                if word in self._original_class_lookup_table:
+                    return False
         return True
 
 class CombinedCriteria(Criterion):

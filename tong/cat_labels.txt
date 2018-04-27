@@ -1,4 +1,5 @@
 cat
+cats
 domestic cat, house cat, Felis domesticus, Felis catus
 kitty, kitty-cat, puss, pussy, pussycat
 mouser

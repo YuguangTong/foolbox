@@ -1,6 +1,7 @@
 
 dog, domestic dog, Canis familiaris
 puppy
+dogs
 pooch, doggie, doggy, barker, bow-wow
 cur, mongrel, mutt
 feist, fice
@@ -196,7 +197,7 @@ Afghan Hound
 Africanis
 Aidi
 Airedale Terrier
-Akita (dog)
+Akita dog
 Aksaray Malaklisi dog
 Alano Español
 Alaskan husky
@@ -252,7 +253,7 @@ Bergamasco Shepherd
 Berger Blanc Suisse
 Bernese Mountain Dog
 Bichon Frise
-Billy (dog)
+Billy dog
 Black and Tan Coonhound
 Black and Tan Virginia Foxhound
 Black Russian Terrier
@@ -269,13 +270,13 @@ Bosnian Coarse-haired Hound
 Boston Terrier
 Bouvier des Ardennes
 Bouvier des Flandres
-Boxer (dog)
+Boxer dog
 Boykin Spaniel
 Bracco Italiano
 Braque du Bourbonnais
 Braque Saint-Germain
 Breed club
-Breed group (dog)
+Breed group dog
 Briard
 Brindlequin
 Briquet Griffon Vendéen
@@ -312,7 +313,7 @@ Chesapeake Bay Retriever
 Chien Français Blanc et Noir
 Chien Français Blanc et Orange
 Chien Français Tricolore
-Chihuahua (dog)
+Chihuahua
 Chinese Crested Dog
 Chinese Imperial Dog
 Chippiparai
@@ -351,7 +352,9 @@ English Mastiff
 English Setter
 English Shepherd
 English Springer Spaniel
-English Toy Terrier (Black & Tan)
+English Toy Terrier
+Black & Tan
+Black and Tan
 Entlebucher Mountain Dog
 Estrela Mountain Dog
 Fell Terrier
@@ -395,7 +398,7 @@ Groenendael dog
 Halden Hound
 Halls Heeler
 Harlequin Pinscher
-Harrier (dog)
+Harrier dog
 Hierran Wolfdog
 Hokkaido dog
 Hovawart
@@ -442,7 +445,7 @@ Kyi-Leo
 Labrador Retriever
 Laekenois dog
 Lagotto Romagnolo
-Laika (dog breed)
+Laika
 Lakeland Terrier
 Lancashire Heeler
 Landseer dog
@@ -501,10 +504,10 @@ Pharaoh Hound
 Phu Quoc Ridgeback
 Piccolo Segugio dell'Appennino
 Podenco Canario
-Pointer (dog breed)
+Pointer
 Polish Hunting Dog
 Polish Lowland Sheepdog
-Pomeranian (dog)
+Pomeranian
 Pont-Audemer Spaniel
 Poodle
 Porcelaine
@@ -578,7 +581,8 @@ Spanish Mastiff
 Spanish Water Dog
 Spinone Italiano
 Sporting Lucas Terrier
-St. Bernard (dog)
+St. Bernard
+Saint Bernard
 Stabyhoun
 Staffordshire Bull Terrier
 Standard Schnauzer
@@ -603,7 +607,7 @@ Tibetan Mastiff
 Tibetan Terrier
 Torkuz
 Tornjak
-Tosa (dog)
+Tosa
 Toy Fox Terrier
 Toy Manchester Terrier
 Transylvanian Hound
