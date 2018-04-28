@@ -4,6 +4,7 @@ from foolbox.criteria import GoogleCloudTopKMisclassification, GoogleCloudTarget
 from keras.preprocessing import image
 import numpy as np
 import csv
+from PIL import Image
 
 def get_label_set(label_filename):
     label_file = open(label_filename,'r')
@@ -13,6 +14,15 @@ def get_label_set(label_filename):
         for item in row:
             label_list.append(item.lower().strip())
     return set(label_list)
+
+def save_adv_image(adversarial, global_iterations, filename_prefix):
+    save_image_name = '{0}_{1}_steps_{2}calls.jpg'.format(filename_prefix,
+        global_iterations, adversarial._total_prediction_calls)
+    adv_image = adversarial.image
+    adv_image = adv_image.astype(np.uint8)
+    adv_image_pil = Image.fromarray(adv_image)
+    adv_image_pil.save(save_image_name)
+    return
 
 cat_label_filename = 'cat_labels.txt'
 dog_label_filename = 'dog_labels.txt'
@@ -47,13 +57,29 @@ criterion = criterion_1 & criterion_2
 attack = BoundaryAttack(model=gcp_model,
                         criterion=criterion)
 
-iteration_size = 100
+iteration_size = 20
 global_iterations = 0
+spherical_step = 1e-2
+source_step = 1e-2
+step_adaptation = 1.5
+max_directions = 15
+batch_size = 5
+log_every_n_steps = 5
+
 # Run boundary attack to generate an adversarial example
 adversarial = attack(cat_img,
                      label=cat_label,
                      unpack=False,
                      iterations=iteration_size,
+                     batch_size=batch_size,
+                     max_directions=max_directions,
+                     step_adaptation=step_adaptation,
+                     spherical_step=spherical_step,
+                     source_step=source_step,
                      starting_point=dog_img,
-                     log_every_n_steps=10,
+                     log_every_n_steps=log_every_n_steps,
+                     tune_batch_size=True,
                      verbose=True)
+
+global_iterations += iteration_size
+save_adv_image(adversarial, global_iterations, 'cat_adv')

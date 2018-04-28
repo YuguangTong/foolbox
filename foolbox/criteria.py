@@ -130,6 +130,12 @@ class GoogleCloudTargetedClassScore(Criterion):
         if top_label.description.lower() in self._target_class_lookup_table:
             if top_label.score >= self._score:
                 return True
+            return False
+        for word in top_label.description.lower().split():
+            if word in self._target_class_lookup_table:
+                if top_label.score >= self._score:
+                    return True
+                return False
         return False
 
 class GoogleCloudTopKMisclassification(Criterion):

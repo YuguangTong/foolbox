@@ -340,6 +340,7 @@ class BoundaryAttack(Attack):
             check_strict = convergence_steps == initial_convergence_steps
             if self.has_converged(check_strict):
                 self.log_step(step - 1, distance, always=True)
+                self.log_model_calls(a)
                 if resetted:
                     self.printv(
                         'Looks like attack has converged after {} steps,'
@@ -358,6 +359,7 @@ class BoundaryAttack(Attack):
             elif (convergence_steps <
                     initial_convergence_steps):  # pragma: no cover
                 self.log_step(step - 1, distance, always=True)
+                self.log_model_calls(a)
                 warnings.warn('Attack has not converged!')
                 convergence_steps = initial_convergence_steps
                 resetted = False
@@ -386,6 +388,7 @@ class BoundaryAttack(Attack):
                         # that the new generator is created afterwards
 
                 self.tune_batch_size(a)
+                self.log_model_calls(a)
 
             # ===========================================================
             # Create a generator for new candidates
@@ -679,6 +682,10 @@ class BoundaryAttack(Attack):
             self.spherical_step,
             self.source_step,
             message))
+        print('current batch size = {}'.format(self.batch_size))
+
+    def log_model_calls(self, a):
+        print('make {} model calls so far'.format(a._total_prediction_calls))
 
     @staticmethod
     def prepare_generate_candidates(original, perturbed):
