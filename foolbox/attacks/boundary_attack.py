@@ -75,6 +75,7 @@ class BoundaryAttack(Attack):
             threaded_gen=True,
             alternative_generator=False,
             internal_dtype=np.float64,
+            greedy=True,
             verbose=False):
 
         """Applies the Boundary Attack.
@@ -141,6 +142,7 @@ class BoundaryAttack(Attack):
         self.spherical_step = spherical_step
         self.source_step = source_step
         self.internal_dtype = internal_dtype
+        self.greedy = greedy
         self.verbose = verbose
 
         if not verbose:
@@ -543,7 +545,7 @@ class BoundaryAttack(Attack):
                     t = time.time()
                     _, is_adversarial, adv_index, is_best, candidate_distance \
                         = a.batch_predictions(
-                            candidates.astype(external_dtype), greedy=True,
+                            candidates.astype(external_dtype), greedy=self.greedy,
                             strict=False, return_details=True)
                     t = time.time() - t
                     self.stats_prediction_duration[self.batch_size - 1] += t
@@ -934,7 +936,7 @@ class BoundaryAttack(Attack):
                 t = time.time()
                 _, is_adversarial, adv_index, is_best, candidate_distance \
                     = a.batch_predictions(
-                        batch.astype(external_dtype), greedy=True,
+                        batch.astype(external_dtype), greedy=self.greedy,
                         strict=False, return_details=True)
                 t = time.time() - t
 

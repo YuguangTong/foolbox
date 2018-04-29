@@ -62,7 +62,7 @@ class GoogleCloudModel(Model):
         assert type(image) is np.ndarray
         image_pil = Image.fromarray(image.astype(np.uint8))
         image_bytes_io = io.BytesIO()
-        image_pil.save(image_bytes_io, format='JPEG')
+        image_pil.save(image_bytes_io, format='PNG')
         content = image_bytes_io.getvalue()
         image_pb = types.Image(content=content)
         return image_pb

@@ -32,8 +32,9 @@ dog_labels_set = get_label_set(dog_label_filename)
 # Load two images. The cat image is original image
 # and the dog image is used to initialize a targeted
 # attack.
-dog_img = image.load_img('dog.jpg', target_size=(224, 224))
-cat_img = image.load_img('cat.jpg', target_size=(224, 224))
+height, width = 100, 100
+dog_img = image.load_img('dog.jpg', target_size=(height, width))
+cat_img = image.load_img('cat.jpg', target_size=(height, width))
 dog_img = image.img_to_array(dog_img)
 cat_img = image.img_to_array(cat_img)
 
@@ -49,10 +50,12 @@ dog_label = 'dog'
 criterion_1 = GoogleCloudTargetedClassScore(dog_label,
                                             score=0.8,
                                             target_class_lookup_table=dog_labels_set)
-criterion_2 = GoogleCloudTopKMisclassification(cat_label,
-                                               k=5,
-                                               original_class_lookup_table=cat_labels_set)
-criterion = criterion_1 & criterion_2
+# criterion_2 = GoogleCloudTopKMisclassification(cat_label,
+#                                                k=5,
+#                                                original_class_lookup_table=cat_labels_set)
+# criterion = criterion_1 & criterion_2
+
+criterion = criterion_1
 
 attack = BoundaryAttack(model=gcp_model,
                         criterion=criterion)
